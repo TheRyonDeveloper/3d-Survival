@@ -11,7 +11,7 @@ permissions:
 
 jobs:
   build:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
 
     steps:
       - name: Checkout repository
@@ -29,10 +29,18 @@ jobs:
           gradle-version: '8.9'
 
       - name: Set up Android SDK
-        uses: android-actions/setup-android@v3
+        uses: android-actions/setup-android@v4
 
       - name: Install Android SDK
         run: sdkmanager "platforms;android-35" "build-tools;35.0.0"
+
+      - name: Check project files
+        run: |
+          echo "Repository files:"
+          ls -la
+          echo "Checking Gradle configuration:"
+          cat settings.gradle
+          cat build.gradle
 
       - name: Build APK
         run: gradle --no-daemon :android:assembleDebug
